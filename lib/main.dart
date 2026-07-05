@@ -31,6 +31,25 @@ class RentManagerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       home: const AuthGate(),
+      builder: (context, child) {
+        if (child == null) return const SizedBox.shrink();
+        final mq = MediaQuery.of(context);
+        const maxWidth = 480.0;
+        final cappedWidth =
+            mq.size.width > maxWidth ? maxWidth : mq.size.width;
+        return Container(
+          color: const Color(0xFFE9EBEE),
+          alignment: Alignment.topCenter,
+          child: MediaQuery(
+            data: mq.copyWith(size: Size(cappedWidth, mq.size.height)),
+            child: SizedBox(
+              width: cappedWidth,
+              height: mq.size.height,
+              child: child,
+            ),
+          ),
+        );
+      },
     );
   }
 }
