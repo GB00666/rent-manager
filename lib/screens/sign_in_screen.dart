@@ -57,108 +57,121 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       backgroundColor: AppColors.border,
       body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: Container(
-              color: AppColors.background,
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: ListView(
-                  children: [
-                    const SizedBox(height: 40),
-                    Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: const Icon(Icons.receipt_long_rounded,
-                          color: Colors.white, size: 32),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Rent Manager',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textDark,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      _isSignUp ? 'Create your landlord account' : 'Welcome back',
-                      style: const TextStyle(color: AppColors.textGrey),
-                    ),
-                    const SizedBox(height: 32),
-                    TextField(
-                      controller: _emailCtrl,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(hintText: 'Email'),
-                    ),
-                    const SizedBox(height: 14),
-                    TextField(
-                      controller: _passwordCtrl,
-                      obscureText: true,
-                      decoration: const InputDecoration(hintText: 'Password'),
-                    ),
-                    if (_error != null) ...[
-                      const SizedBox(height: 14),
-                      Text(_error!,
-                          style: const TextStyle(color: AppColors.danger)),
-                    ],
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _loading ? null : _submit,
-                      child: _loading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.4,
-                              ),
-                            )
-                          : Text(_isSignUp ? 'Sign Up' : 'Sign In'),
-                    ),
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: () => setState(() => _isSignUp = !_isSignUp),
-                      child: Text(
-                        _isSignUp
-                            ? 'Already have an account? Sign In'
-                            : "New here? Create an account",
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: const [
-                        Expanded(child: Divider()),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text('OR',
-                              style: TextStyle(color: AppColors.textGrey)),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final width =
+                constraints.maxWidth > 480 ? 480.0 : constraints.maxWidth;
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: width,
+                height: constraints.maxHeight,
+                child: Container(
+                  color: AppColors.background,
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: ListView(
+                      children: [
+                        const SizedBox(height: 40),
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: const Icon(Icons.receipt_long_rounded,
+                              color: Colors.white, size: 32),
                         ),
-                        Expanded(child: Divider()),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Rent Manager',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textDark,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          _isSignUp
+                              ? 'Create your landlord account'
+                              : 'Welcome back',
+                          style: const TextStyle(color: AppColors.textGrey),
+                        ),
+                        const SizedBox(height: 32),
+                        TextField(
+                          controller: _emailCtrl,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(hintText: 'Email'),
+                        ),
+                        const SizedBox(height: 14),
+                        TextField(
+                          controller: _passwordCtrl,
+                          obscureText: true,
+                          decoration:
+                              const InputDecoration(hintText: 'Password'),
+                        ),
+                        if (_error != null) ...[
+                          const SizedBox(height: 14),
+                          Text(_error!,
+                              style: const TextStyle(color: AppColors.danger)),
+                        ],
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _loading ? null : _submit,
+                          child: _loading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.4,
+                                  ),
+                                )
+                              : Text(_isSignUp ? 'Sign Up' : 'Sign In'),
+                        ),
+                        const SizedBox(height: 12),
+                        TextButton(
+                          onPressed: () =>
+                              setState(() => _isSignUp = !_isSignUp),
+                          child: Text(
+                            _isSignUp
+                                ? 'Already have an account? Sign In'
+                                : "New here? Create an account",
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: const [
+                            Expanded(child: Divider()),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: Text('OR',
+                                  style: TextStyle(color: AppColors.textGrey)),
+                            ),
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        OutlinedButton(
+                          onPressed: _loading ? null : _continueAsGuest,
+                          style: OutlinedButton.styleFrom(
+                            padding:
+                                const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text('Continue as Guest'),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    OutlinedButton(
-                      onPressed: _loading ? null : _continueAsGuest,
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: const Text('Continue as Guest'),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
