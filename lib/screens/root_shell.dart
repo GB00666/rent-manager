@@ -45,48 +45,15 @@ class _RootShellState extends State<RootShell> {
 
   void switchTab(int i) => setState(() => _index = i);
 
-  static const double _maxContentWidth = 480;
-
   @override
   Widget build(BuildContext context) {
     return TabController2(
       switchTab: switchTab,
       child: Scaffold(
-        backgroundColor: AppColors.border,
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            final width = constraints.maxWidth > _maxContentWidth
-                ? _maxContentWidth
-                : constraints.maxWidth;
-            return Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                width: width,
-                height: constraints.maxHeight,
-                child: Container(
-                  color: Colors.white,
-                  child: IndexedStack(index: _index, children: _screens),
-                ),
-              ),
-            );
-          },
-        ),
-        bottomNavigationBar: LayoutBuilder(
-          builder: (context, constraints) {
-            final width = constraints.maxWidth > _maxContentWidth
-                ? _maxContentWidth
-                : constraints.maxWidth;
-            return Align(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                width: width,
-                child: _BottomNav(
-                  currentIndex: _index,
-                  onTap: switchTab,
-                ),
-              ),
-            );
-          },
+        body: IndexedStack(index: _index, children: _screens),
+        bottomNavigationBar: _BottomNav(
+          currentIndex: _index,
+          onTap: switchTab,
         ),
       ),
     );
