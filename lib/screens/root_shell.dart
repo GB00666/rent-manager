@@ -53,23 +53,40 @@ class _RootShellState extends State<RootShell> {
       switchTab: switchTab,
       child: Scaffold(
         backgroundColor: AppColors.border,
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: _maxContentWidth),
-            child: Container(
-              color: Colors.white,
-              child: IndexedStack(index: _index, children: _screens),
-            ),
-          ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth > _maxContentWidth
+                ? _maxContentWidth
+                : constraints.maxWidth;
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: width,
+                height: constraints.maxHeight,
+                child: Container(
+                  color: Colors.white,
+                  child: IndexedStack(index: _index, children: _screens),
+                ),
+              ),
+            );
+          },
         ),
-        bottomNavigationBar: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: _maxContentWidth),
-            child: _BottomNav(
-              currentIndex: _index,
-              onTap: switchTab,
-            ),
-          ),
+        bottomNavigationBar: LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth > _maxContentWidth
+                ? _maxContentWidth
+                : constraints.maxWidth;
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: width,
+                child: _BottomNav(
+                  currentIndex: _index,
+                  onTap: switchTab,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
